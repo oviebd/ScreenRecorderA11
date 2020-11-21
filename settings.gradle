@@ -1,0 +1,2 @@
+include ':app', ':SmileSoftPlugin'
+rootProject.name='PluginLearn'
