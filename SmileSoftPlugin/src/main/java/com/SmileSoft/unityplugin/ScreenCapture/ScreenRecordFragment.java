@@ -34,7 +34,10 @@ public class ScreenRecordFragment extends Fragment {
         UnityPlayer.currentActivity.getFragmentManager().beginTransaction().add(this, TAG).commit();
     }*/
     public void SetUp(Activity activity) {
+       // Log.e("UNITY>>", "Inside SetUp Context is " + activity );
+       // this._context = activity;
         activity.getFragmentManager().beginTransaction().add(this, TAG).commit();
+       // ScreenRecordManager.instance().SetRecorder(_context);
     }
 
 
@@ -182,6 +185,7 @@ public class ScreenRecordFragment extends Fragment {
         this._activity = getActivity();
         this._context = getContext();
 
+        Log.e("UNITY>>", "Inside On Atach Context is " + _context );
         ScreenRecordManager.instance().SetRecorder(_context);
     }
 }

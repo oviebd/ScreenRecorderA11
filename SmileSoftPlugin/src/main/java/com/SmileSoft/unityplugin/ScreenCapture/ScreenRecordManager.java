@@ -84,14 +84,37 @@ public class ScreenRecordManager {
         }
         if (GetProjectionManager() != null) {
             this.virtualDisplay = createVirtualDisplay();
-            recorder.start();
-            isVideoRecording = true;
+
+            if(this.virtualDisplay != null){
+                recorder.start();
+                isVideoRecording = true;
+            }else {
+                Log.e("UNITY>>", "Virtal display Null");
+               // OnErrorRecordVideo();
+            }
+
         }
     }
 
     private VirtualDisplay createVirtualDisplay() {
-        return mediaProjection.createVirtualDisplay("record", displayMetrics.widthPixels, displayMetrics.heightPixels, displayMetrics.densityDpi, 16, recorder
-                .getSurface(), null, null);
+
+        if(mediaProjection == null)
+            Log.e("UNITY>>", "Media projection Null");
+        else
+            Log.e("UNITY>>", "Media projection Not Null Null");
+
+        if(displayMetrics == null)
+            Log.e("UNITY>>", "Display Matrix Null");
+        else
+            Log.e("UNITY>>", "Display Matrix Not Null");
+        try {
+            return mediaProjection.createVirtualDisplay("record", displayMetrics.widthPixels, displayMetrics.heightPixels, displayMetrics.densityDpi, 16, recorder
+                    .getSurface(), null, null);
+        } catch (Exception e) {
+             Log.e("UNITY>>", "Catch in Display");
+            //OnErrorRecordVideo();
+            return null;
+        }
     }
 
     public String StopScreenRecord() {
@@ -144,6 +167,24 @@ public class ScreenRecordManager {
 
         return SetVideoFileName(this.fileName);
     }
+   /* private String SetFilePath() {
+
+        if (this.folderName == null || this.folderName == "")
+            folderName = context.getPackageName();
+
+       *//* if(this.appDir == null || this.appDir == ""){
+            File appDir = new File(Environment.getExternalStorageDirectory() + "/" + folderName);
+            if (!appDir.exists())
+                appDir.mkdir();
+
+            this.appDir = appDir.getAbsolutePath();
+        }*//*
+
+        if (this.fileName == null || this.fileName == "")
+            this.fileName = "_Screen_Record";
+
+        return SetVideoFileName(this.fileName);
+    }*/
 
     public void InitializeRecorder() throws IOException {
 
@@ -227,7 +268,8 @@ public class ScreenRecordManager {
 
     public String SetVideoFileName(String fileName) {
         this.fileName = fileName;
-        this.filePath = (this.appDir + "/" + fileName + ".mp4");
+        //this.filePath = (this.appDir + "/" + fileName + ".mp4");
+        this.filePath =  fileName + ".mp4";
         return this.filePath;
     }
 
